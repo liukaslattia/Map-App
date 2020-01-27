@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 // Initialiazes and creates the map
 function createMap () {
   window.mymap = L.map('mapid').setView([61.497755, 23.760543], 3)
@@ -23,32 +24,33 @@ function get (map) {
     console.log(array)
     var i
     for (i = 0; i < array.length; i++) {
-      var marker = L.marker([array[i].lat, array[i].lon]).addTo(map)
-       var table = document.getElementById("location").firstElementChild;
-       var row = table.insertRow(0);
-       var cell1 = row.insertCell(0);
-       var cell2 = row.insertCell(1);
-       cell1.innerHTML = array[i].lat;
-       cell2.innerHTML = array[i].lon;
+      L.marker([array[i].lat, array[i].lon]).addTo(map)
+      var table = document.getElementById('location').firstElementChild
+      var row = table.insertRow(0)
+      var cell1 = row.insertCell(0)
+      var cell2 = row.insertCell(1)
+      cell1.innerHTML = array[i].lat
+      cell2.innerHTML = array[i].lon
     }
   })
 }
 
 // Creates marker to the map
 function createMarker (e) {
-var marker = L.marker([e.latlng.lat, e.latlng.lng]).addTo(window.mymap)
+  L.marker([e.latlng.lat, e.latlng.lng]).addTo(window.mymap)
 }
 
 // Adds marker to the map and adds it to the server
 function onMapClick (e) {
   console.log(e.latlng)
-  
+
   var init = {
     method: 'POST',
     headers: myHeaders,
     body: JSON.stringify({
-      "lat": e.latlng.lat,
-      "lon": e.latlng.lng})
+      lat: e.latlng.lat,
+      lon: e.latlng.lng
+    })
   }
 
   fetch('http://localhost:8080/locations', init).then(createMarker(e))
